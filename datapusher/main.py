@@ -4,13 +4,25 @@ import ckanserviceprovider.web as web
 
 import jobs
 
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+
 # check whether jobs have been imported properly
 assert(jobs.push_to_datastore)
 
 
 def serve():
     web.init()
-    web.app.run(web.app.config.get('HOST'), web.app.config.get('PORT'))
+    
+    if web.app.config.get('DOCKER'):
+        http_server = HTTPServer(WSGIContainer(web.app))
+        http_server.listen(web.app.config.get('PORT'))
+        IOLoop.instance().start()
+
+    else:
+        web.app.run(web.app.config.get('HOST'), web.app.config.get('PORT'))
+
 
 
 def serve_test():

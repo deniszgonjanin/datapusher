@@ -17,6 +17,8 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/job_store.db'
 HOST = '0.0.0.0'
 PORT = 8800
 
+DOCKER = False
+
 # logging
 
 #FROM_EMAIL = 'server-error@example.com'
